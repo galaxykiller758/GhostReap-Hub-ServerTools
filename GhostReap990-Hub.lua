@@ -17,9 +17,9 @@ input.FocusLost:Connect(function()
     if input.Text == key then
         input:Destroy()
 
-        -- Ear rape open sound
+        -- Ear rape open sound (NEW working ID)
         local earSound = Instance.new("Sound", game.Workspace)
-        earSound.SoundId = "rbxassetid://6638876654"
+        earSound.SoundId = "rbxassetid://9129213763"
         earSound.Volume = 10
         earSound:Play()
 
