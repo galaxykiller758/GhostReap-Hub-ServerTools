@@ -17,9 +17,9 @@ input.FocusLost:Connect(function()
     if input.Text == key then
         input:Destroy()
 
-        -- Ear rape open sound (NEW working ID)
+        -- Ear rape sound (verified working)
         local earSound = Instance.new("Sound", game.Workspace)
-        earSound.SoundId = "rbxassetid://9129213763"
+        earSound.SoundId = "rbxassetid://9122196334"
         earSound.Volume = 10
         earSound:Play()
 
@@ -118,7 +118,7 @@ input.FocusLost:Connect(function()
 
         -- Godmode toggle (Method 1: Clone Humanoid)
         local godMode = Instance.new("TextButton", Frame)
-        godMode.Text = "Godmode"
+        godMode.Text = "Godmode (Clone)"
         godMode.Size = UDim2.new(0, 120, 0, 40)
         godMode.Position = UDim2.new(0, 10, 0, 110)
         godMode.BackgroundColor3 = Color3.fromRGB(0, 150, 0)
@@ -130,6 +130,48 @@ input.FocusLost:Connect(function()
                 local clone = humanoid:Clone()
                 humanoid.Parent = nil
                 clone.Parent = game.Players.LocalPlayer.Character
+            end
+        end)
+
+        -- Remote Blocker toggle
+        local blockRemotes = false
+        local remoteBlockBtn = Instance.new("TextButton", Frame)
+        remoteBlockBtn.Text = "Remote Blocker"
+        remoteBlockBtn.Size = UDim2.new(0, 120, 0, 40)
+        remoteBlockBtn.Position = UDim2.new(0, 140, 0, 110)
+        remoteBlockBtn.BackgroundColor3 = Color3.fromRGB(0, 100, 150)
+        remoteBlockBtn.TextScaled = true
+
+        remoteBlockBtn.MouseButton1Click:Connect(function()
+            blockRemotes = not blockRemotes
+            if blockRemotes then
+                getrawmetatable(game).__namecall = newcclosure(function(self, ...)
+                    local method = getnamecallmethod()
+                    if method == "FireServer" or method == "InvokeServer" then
+                        return
+                    end
+                    return old(self, ...)
+                end)
+            else
+                setreadonly(getrawmetatable(game), false)
+                getrawmetatable(game).__namecall = old
+                setreadonly(getrawmetatable(game), true)
+            end
+        end)
+
+        -- Phantom Escape toggle
+        local escapeBtn = Instance.new("TextButton", Frame)
+        escapeBtn.Text = "Phantom Escape"
+        escapeBtn.Size = UDim2.new(0, 120, 0, 40)
+        escapeBtn.Position = UDim2.new(0, 270, 0, 110)
+        escapeBtn.BackgroundColor3 = Color3.fromRGB(120, 0, 120)
+        escapeBtn.TextScaled = true
+
+        escapeBtn.MouseButton1Click:Connect(function()
+            local root = game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+            if root then
+                root.Anchored = false
+                root.CFrame = CFrame.new(9999,9999,9999)
             end
         end)
 
