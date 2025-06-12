@@ -1,4 +1,6 @@
--- Part 1: GUI Base + Key System
+-- GhostReap990 Hub | Created by ReapsReality990 & Project Partner | 2025
+-- Unauthorized distribution or leaks will result in immediate deauthorization. Private-use only.
+
 local player = game.Players.LocalPlayer
 local UserInputService = game:GetService("UserInputService")
 local key = "reapsreality990key8"
@@ -57,7 +59,7 @@ local function checkKey(input)
 end
 
 UserInputService.InputBegan:Connect(checkKey)
--- Part 2: Pill Switch Template
+
 local function createPillToggle(name, posY)
     local button = Instance.new("TextButton")
     button.Size = UDim2.new(0, 250, 0, 40)
@@ -76,12 +78,12 @@ local function createPillToggle(name, posY)
     end)
     return button
 end
--- Part 3: Kill Aura / Lag / Godmode
+
 local function killAura()
     local players = game:GetService("Players")
     while task.wait(0.1) do
         for _, v in pairs(players:GetPlayers()) do
-            if v ~= player then
+            if v ~= player and v.Character and v.Character:FindFirstChild("HumanoidRootPart") then
                 local args = { v }
                 game:GetService("ReplicatedStorage").Remotes.Damage:FireServer(unpack(args))
             end
@@ -97,20 +99,18 @@ end
 
 local function godmode()
     local char = player.Character
-    if char then
+    if char and char:FindFirstChild("Humanoid") then
         char.Humanoid.Name = "Bypass"
     end
 end
--- Part 4: Phantom Escape / Remote Blocker
+
 local phantom = false
 local blocker = false
 
 local function togglePhantom()
     phantom = not phantom
-    if phantom then
-        player.Character.HumanoidRootPart.Anchored = true
-    else
-        player.Character.HumanoidRootPart.Anchored = false
+    if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+        player.Character.HumanoidRootPart.Anchored = phantom
     end
 end
 
@@ -124,7 +124,7 @@ local function toggleBlocker()
         end)
     end
 end
--- Part 5: Command Bar
+
 local cmdBar = Instance.new("TextBox")
 cmdBar.Size = UDim2.new(0, 400, 0, 40)
 cmdBar.Position = UDim2.new(0, 50, 0, 300)
@@ -140,13 +140,14 @@ cmdBar.FocusLost:Connect(function()
     if text:sub(1,7) == ";bring " then
         local targetName = text:sub(8)
         local target = game.Players:FindFirstChild(targetName)
-        if target then
+        if target and target.Character and target.Character:FindFirstChild("HumanoidRootPart") 
+            and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
             target.Character.HumanoidRootPart.CFrame = player.Character.HumanoidRootPart.CFrame
         end
     end
     cmdBar.Text = ""
 end)
--- Part 6: Error Logger
+
 local log = {}
 
 local function logError(msg)
@@ -159,3 +160,6 @@ local function printLogs()
         print(v)
     end
 end
+
+print("GhostReap990 Hub | Created by ReapsReality990 & Project Partner | 2025")
+print("Unauthorized distribution or leaks will result in immediate deauthorization. Private-use only.")
